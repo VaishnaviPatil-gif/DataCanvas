@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrieval Integrity Auditor for RAG Systems</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Retrieval Integrity Auditor for RAG Systems</h1>
+            <p class="subtitle">Enterprise audit tool for RAG retrieval quality assessment</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Section / Home Panel -->
+            <section id="input-section" class="input-section panel">
+                <h2>🔍 Audit Configuration</h2>
+                
+                <div class="form-group">
+                    <label for="user-query">User Query *</label>
+                    <input 
+                        type="text" 
+                        id="user-query" 
+                        placeholder="Enter the query submitted to the RAG system"
+                        class="input-field"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="retrieved-chunks">Retrieved Chunks (Top-k with similarity scores) *</label>
+                    <textarea 
+                        id="retrieved-chunks" 
+                        placeholder="Paste retrieved chunks in JSON format or freetext. Example JSON:&#10;[&#10;  { &quot;id&quot;: 1, &quot;text&quot;: &quot;chunk text&quot;, &quot;score&quot;: 0.92 },&#10;  { &quot;id&quot;: 2, &quot;text&quot;: &quot;chunk text&quot;, &quot;score&quot;: 0.78 }&#10;]"
+                        class="textarea-field"
+                        rows="8"
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="ground-truth">Knowledge Base / Ground Truth (Optional)</label>
+                    <textarea 
+                        id="ground-truth" 
+                        placeholder="Paste relevant ground truth documents or expected evidence for validation"
+                        class="textarea-field"
+                        rows="6"
+                    ></textarea>
+                </div>
+
+                <button id="run-audit-btn" class="btn btn-primary">▶ Run Retrieval Audit</button>
+            </section>
+
+            <!-- Dashboard View (Hidden until audit runs) -->
+            <section id="dashboard-section" class="dashboard-section" style="display: none;">
+                
+                <!-- Scorecard Row -->
+                <div class="scorecard-row">
+                    <div class="score-card main-score">
+                        <div class="score-value" id="integrity-score">0</div>
+                        <div class="score-label">Retrieval Integrity Score</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="score-card stat-card">
+                        <div class="stat-value" id="supporting-chunks">0</div>
+                        <div class="stat-label">Supporting Chunks</div>
+                    </div>
+
+                    <div class="score-card stat-card">
+                        <div class="stat-value" id="noise-chunks">0</div>
+                        <div class="stat-label">Noise Chunks</div>
+                    </div>
+
+                    <div class="score-card stat-card">
+                        <div class="stat-value" id="coverage-percent">0%</div>
+                        <div class="stat-label">Aspect Coverage</div>
+                    </div>
+                </div>
+
+                <!-- Heatmap Section -->
+                <div class="heatmap-container">
+                    <h3>📊 Aspect vs Chunk Coverage</h3>
+                    <p class="heatmap-desc">Click any cell to see the chunk text and coverage explanation</p>
+                    <div class="heatmap-wrapper">
+                        <div class="heatmap-labels">
+                            <div class="aspect-labels" id="aspect-labels"></div>
+                        </div>
+                        <div class="heatmap-content">
+                            <div class="chunk-header" id="chunk-header"></div>
+                            <div class="heatmap-grid" id="heatmap-grid"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two-Column Layout: Missing Evidence + Report -->
+                <div class="bottom-row">
+                    <!-- Missing Evidence Section -->
+                    <div class="missing-evidence panel">
+                        <h3>⚠️ Missing Evidence</h3>
+                        <div id="missing-evidence-content">
+                            <p>No missing aspects detected.</p>
+                        </div>
+                    </div>
+
+                    <!-- Retrieval Audit Report -->
+                    <div class="audit-report panel">
+                        <h3>📋 Retrieval Audit Report</h3>
+                        <div id="audit-report-content">
+                            <p>Run an audit to see recommendations.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back Button -->
+                <button id="back-btn" class="btn btn-secondary">← Back to Input</button>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for Chunk Details -->
+    <div id="chunk-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3 id="modal-title">Chunk Details</h3>
+            <div id="modal-body">
+                <p><strong>Chunk Text:</strong></p>
+                <p id="modal-chunk-text"></p>
+                <hr>
+                <p><strong>Coverage Analysis:</strong></p>
+                <p id="modal-coverage-explanation"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
