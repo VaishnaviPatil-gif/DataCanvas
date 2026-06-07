@@ -418,17 +418,6 @@ body {
     transition: left 0.3s ease;
 }
 
-.heatmap-cell:hover {
-    transform: scale(1.08);
-    box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.4);
-    z-index: 10;
-    filter: brightness(1.1);
-}
-
-.heatmap-cell:hover::before {
-    left: 100%;
-}
-
 .heatmap-cell:last-child {
     border-right: none;
 }
@@ -587,11 +576,6 @@ body {
     border-radius: 8px;
 }
 
-.modal-close:hover {
-    color: var(--neutral-900);
-    background-color: var(--neutral-100);
-}
-
 #modal-title {
     font-size: 20px;
     font-weight: 700;
@@ -631,27 +615,6 @@ body {
 /* ======================================
    RESPONSIVE DESIGN
    ====================================== */
-
-@media (max-width: 1200px) {
-    .scorecard-row {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .bottom-row {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 1024px) {
-    .bottom-row {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 20px 12px;
-    }
 
     .header {
         padding: 35px 25px;
